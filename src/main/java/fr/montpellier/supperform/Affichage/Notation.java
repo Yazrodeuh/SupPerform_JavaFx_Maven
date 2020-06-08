@@ -18,6 +18,4 @@ public class Notation extends FonctionAffichage {
         getStart().setOnAction(actionEvent -> new ExcelNotation(this, retrait));
     }
 
-
-
 }

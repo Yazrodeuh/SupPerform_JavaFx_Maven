@@ -25,7 +25,7 @@ public abstract class FonctionAffichage extends Group{
     private final int translateX;
     private final double height, decalage = 10, nbLigne;
     private Button start, quitter;
-    private Main main;
+    private final Main main;
 
     public FonctionAffichage(Main main, int nbLigne){
         this.nbLigne = nbLigne;
@@ -270,13 +270,8 @@ public abstract class FonctionAffichage extends Group{
         return spinnerLigneIdentifiant;
     }
 
-
-
     public Button getStart() {
         return start;
     }
 
-    public Button getQuitter() {
-        return quitter;
-    }
 }
