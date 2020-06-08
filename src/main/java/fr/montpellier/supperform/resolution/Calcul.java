@@ -119,18 +119,24 @@ public class Calcul {
 
         ArrayList<String> copieReponseQCM = copierTableau(reponseQCM);
         ArrayList<String> copieReponseEtudiant = copierTableau(reponseEtudiant);
+        System.out.println("Etudiant : " + copieReponseEtudiant.toString());
+        System.out.println("QCM : " + copieReponseQCM.toString());
 
         if(copieReponseEtudiant.size() == 0){
+            System.out.println("1");
             return 0;
         }else if(copieReponseQCM.size() == 1 && copieReponseEtudiant.size() == 1){
+            System.out.println("2");
             if(copieReponseQCM.get(0).equals("F") && copieReponseEtudiant.get(0).equals(copieReponseQCM.get(0))) {
+                System.out.println("3");
                 return resultat;
             }else if(!copieReponseQCM.get(0).equals("F") && copieReponseEtudiant.get(0).equals(copieReponseQCM.get(0))){
-
+                System.out.println("4");
                 return resultat;
             }else if(copieReponseQCM.get(0).equals("F") && !copieReponseEtudiant.get(0).equals(copieReponseQCM.get(0))){
                 return 0;
             } else{
+                System.out.println("5");
                 return 0.5;
             }
         }else{

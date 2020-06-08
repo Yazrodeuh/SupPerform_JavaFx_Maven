@@ -1,11 +1,11 @@
 package fr.montpellier.supperform.Affichage;
-
 import fr.montpellier.supperform.Main;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+
 
 public class Accueil extends Group {
 
@@ -70,5 +70,9 @@ public class Accueil extends Group {
         boutonQuitter.setTranslateY(boutonId.getTranslateY() + 120);
 
         this.getChildren().addAll(boutonNotationNormale, boutonNotationUE7, boutonId, support, boutonQuitter);
+
+
     }
+
+
 }
