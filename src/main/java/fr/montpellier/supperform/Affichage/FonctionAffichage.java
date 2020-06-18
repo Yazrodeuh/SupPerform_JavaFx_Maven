@@ -14,13 +14,14 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 
-public abstract class FonctionAffichage extends Group{
+public abstract class FonctionAffichage extends Group {
 
     private final Font fontTitre = Font.font("Verdana", FontWeight.BOLD, 15);
     private final Font fontText = Font.font("Verdana", FontWeight.SEMI_BOLD, 13);
     private File fileReponse, fileIdentifiant;
     private Group group;
     private Spinner<Integer> spinnerEtudiant, spinnerQCM, spinnerLigneReponse, spinnerLigneIdentifiant;
+    private IntegerTextField integerTextFieldEtudiant, integerTextFieldQCM, integerTextFieldLigneReponse, integerTextFieldLigneIdentifiant;
     private SpinnerValueFactory<Integer> spinnerValueFactory ;
     private final int translateX;
     private final double height, decalage = 10, nbLigne;
@@ -90,15 +91,19 @@ public abstract class FonctionAffichage extends Group{
         Label label = new Label("Nombre d'étudiants : ");
         label.setFont(fontText);
 
-        spinnerEtudiant = new Spinner<>();
+        /*spinnerEtudiant = new Spinner<>();
         spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
         spinnerEtudiant.setValueFactory(spinnerValueFactory);
         spinnerEtudiant.setTranslateX(150);
         spinnerEtudiant.setTranslateY(-4);
-        spinnerEtudiant.setEditable(true);
+        spinnerEtudiant.setEditable(true);*/
         //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());
 
-        group.getChildren().addAll(label, spinnerEtudiant);
+        integerTextFieldEtudiant = new IntegerTextField();
+        integerTextFieldEtudiant.setTranslateX(150);
+        integerTextFieldEtudiant.setTranslateY(-4);
+
+        group.getChildren().addAll(label, integerTextFieldEtudiant);
         group.setTranslateX(translateX);
         group.setTranslateY(height/nbLigne * position + decalage);
 
@@ -111,15 +116,19 @@ public abstract class FonctionAffichage extends Group{
         Label label = new Label("Nombre de QCM : ");
         label.setFont(fontText);
 
-        spinnerQCM = new Spinner<>();
+        /*spinnerQCM = new Spinner<>();
         spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
         spinnerQCM.setValueFactory(spinnerValueFactory);
         spinnerQCM.setTranslateX(150);
         spinnerQCM.setTranslateY(-4);
         spinnerQCM.setEditable(true);
-        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());
+        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());*/
 
-        group.getChildren().addAll(label, spinnerQCM);
+        integerTextFieldQCM = new IntegerTextField();
+        integerTextFieldQCM.setTranslateX(150);
+        integerTextFieldQCM.setTranslateY(-4);
+
+        group.getChildren().addAll(label, integerTextFieldQCM);
         group.setTranslateX(translateX);
         group.setTranslateY(height/nbLigne * position + decalage);
 
@@ -132,15 +141,19 @@ public abstract class FonctionAffichage extends Group{
         Label label = new Label("Ligne à laquelle vous avez entré les bonnes réponses : ");
         label.setFont(fontText);
 
-        spinnerLigneReponse = new Spinner<>();
+        /*spinnerLigneReponse = new Spinner<>();
         spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
         spinnerLigneReponse.setValueFactory(spinnerValueFactory);
         spinnerLigneReponse.setTranslateX(370);
         spinnerLigneReponse.setTranslateY(-4);
         spinnerLigneReponse.setEditable(true);
-        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());
+        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());*/
 
-        group.getChildren().addAll(label, spinnerLigneReponse);
+        integerTextFieldLigneReponse = new IntegerTextField();
+        integerTextFieldLigneReponse.setTranslateX(370);
+        integerTextFieldLigneReponse.setTranslateY(-4);
+
+        group.getChildren().addAll(label, integerTextFieldLigneReponse);
         group.setTranslateX(translateX);
         group.setTranslateY(height/nbLigne * position + decalage);
 
@@ -197,15 +210,20 @@ public abstract class FonctionAffichage extends Group{
         Label label = new Label("Nombre d'étudiants ayant un identifiant  : ");
         label.setFont(fontText);
 
-        spinnerLigneIdentifiant = new Spinner<>();
+        /*spinnerLigneIdentifiant = new Spinner<>();
         spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
         spinnerLigneIdentifiant.setValueFactory(spinnerValueFactory);
         spinnerLigneIdentifiant.setTranslateX(300);
         spinnerLigneIdentifiant.setTranslateY(-4);
         spinnerLigneIdentifiant.setEditable(true);
-        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());
+        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());*/
 
-        group.getChildren().addAll(label, spinnerLigneIdentifiant);
+        integerTextFieldLigneIdentifiant = new IntegerTextField();
+        integerTextFieldLigneIdentifiant.setTranslateX(300);
+        integerTextFieldLigneIdentifiant.setTranslateY(-4);
+
+
+        group.getChildren().addAll(label, integerTextFieldLigneIdentifiant);
         group.setTranslateX(translateX);
         group.setTranslateY(height/nbLigne * position + decalage);
 
@@ -238,7 +256,7 @@ public abstract class FonctionAffichage extends Group{
         quitter.setOnAction(actionEvent -> {
             Scene accueil = new Scene(new Accueil(main), main.getWidth(), main.getHeight());
             accueil.setFill(Color.LIGHTGRAY);
-            accueil.getStylesheets().add("/Button.css");
+            accueil.getStylesheets().add("fr/montpellier/supperform/Button.css");
             main.getStage().setTitle("Sup'Perform Accueil");
             main.getStage().setScene(accueil);
 
@@ -254,7 +272,7 @@ public abstract class FonctionAffichage extends Group{
         return fileIdentifiant;
     }
 
-    public Spinner<Integer> getSpinnerEtudiant() {
+    /*public Spinner<Integer> getSpinnerEtudiant() {
         return spinnerEtudiant;
     }
 
@@ -268,9 +286,23 @@ public abstract class FonctionAffichage extends Group{
 
     public Spinner<Integer> getSpinnerNombreLigneIdentifiant() {
         return spinnerLigneIdentifiant;
+    }*/
+
+    public IntegerTextField getIntegerTextFieldEtudiant() {
+        return integerTextFieldEtudiant;
     }
 
+    public IntegerTextField getIntegerTextFieldQCM() {
+        return integerTextFieldQCM;
+    }
 
+    public IntegerTextField getIntegerTextFieldLigneReponse() {
+        return integerTextFieldLigneReponse;
+    }
+
+    public IntegerTextField getIntegerTextFieldLigneIdentifiant() {
+        return integerTextFieldLigneIdentifiant;
+    }
 
     public Button getStart() {
         return start;

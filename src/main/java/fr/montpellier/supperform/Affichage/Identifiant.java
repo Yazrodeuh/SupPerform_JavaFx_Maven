@@ -3,7 +3,7 @@ package fr.montpellier.supperform.Affichage;
 import fr.montpellier.supperform.Main;
 import fr.montpellier.supperform.resolution.ExcelIdentifiant;
 
-public class Identifiant extends FonctionAffichage{
+public class Identifiant extends FonctionAffichage {
 
     public Identifiant(Main main) {
         super(main, 7);
