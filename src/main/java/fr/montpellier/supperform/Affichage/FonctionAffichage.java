@@ -5,8 +5,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -20,13 +18,11 @@ public abstract class FonctionAffichage extends Group {
     private final Font fontText = Font.font("Verdana", FontWeight.SEMI_BOLD, 13);
     private File fileReponse, fileIdentifiant;
     private Group group;
-    private Spinner<Integer> spinnerEtudiant, spinnerQCM, spinnerLigneReponse, spinnerLigneIdentifiant;
     private IntegerTextField integerTextFieldEtudiant, integerTextFieldQCM, integerTextFieldLigneReponse, integerTextFieldLigneIdentifiant;
-    private SpinnerValueFactory<Integer> spinnerValueFactory ;
     private final int translateX;
     private final double height, decalage = 10, nbLigne;
     private Button start, quitter;
-    private Main main;
+    private final Main main;
 
     public FonctionAffichage(Main main, int nbLigne){
         this.nbLigne = nbLigne;
@@ -71,9 +67,8 @@ public abstract class FonctionAffichage extends Group {
                 fileReponse = fileChooser.showOpenDialog(new Main().getStage());
                 fileChooser.setInitialDirectory(fileReponse.getParentFile());
                 labelCheminAcces.setText("" + fileReponse);
-            }catch (NullPointerException e ){
-                System.out.println("i");
-                //TODO mettre une boite de dialogue
+            }catch (NullPointerException ignored){
+
             }
 
         });
@@ -90,14 +85,6 @@ public abstract class FonctionAffichage extends Group {
 
         Label label = new Label("Nombre d'étudiants : ");
         label.setFont(fontText);
-
-        /*spinnerEtudiant = new Spinner<>();
-        spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
-        spinnerEtudiant.setValueFactory(spinnerValueFactory);
-        spinnerEtudiant.setTranslateX(150);
-        spinnerEtudiant.setTranslateY(-4);
-        spinnerEtudiant.setEditable(true);*/
-        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());
 
         integerTextFieldEtudiant = new IntegerTextField();
         integerTextFieldEtudiant.setTranslateX(150);
@@ -116,14 +103,6 @@ public abstract class FonctionAffichage extends Group {
         Label label = new Label("Nombre de QCM : ");
         label.setFont(fontText);
 
-        /*spinnerQCM = new Spinner<>();
-        spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
-        spinnerQCM.setValueFactory(spinnerValueFactory);
-        spinnerQCM.setTranslateX(150);
-        spinnerQCM.setTranslateY(-4);
-        spinnerQCM.setEditable(true);
-        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());*/
-
         integerTextFieldQCM = new IntegerTextField();
         integerTextFieldQCM.setTranslateX(150);
         integerTextFieldQCM.setTranslateY(-4);
@@ -140,14 +119,6 @@ public abstract class FonctionAffichage extends Group {
 
         Label label = new Label("Ligne à laquelle vous avez entré les bonnes réponses : ");
         label.setFont(fontText);
-
-        /*spinnerLigneReponse = new Spinner<>();
-        spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
-        spinnerLigneReponse.setValueFactory(spinnerValueFactory);
-        spinnerLigneReponse.setTranslateX(370);
-        spinnerLigneReponse.setTranslateY(-4);
-        spinnerLigneReponse.setEditable(true);
-        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());*/
 
         integerTextFieldLigneReponse = new IntegerTextField();
         integerTextFieldLigneReponse.setTranslateX(370);
@@ -191,10 +162,7 @@ public abstract class FonctionAffichage extends Group {
                 fileIdentifiant = fileChooser.showOpenDialog(new Main().getStage());
                 fileChooser.setInitialDirectory(fileIdentifiant.getParentFile());
                 labelCheminAcces.setText("" + fileIdentifiant);
-            }catch (NullPointerException e ){
-                System.out.println("i");
-                //TODO mettre une boite de dialogue
-            }
+            }catch (NullPointerException ignored){}
         });
 
         group.getChildren().addAll(label, button, labelCheminAcces);
@@ -210,18 +178,9 @@ public abstract class FonctionAffichage extends Group {
         Label label = new Label("Nombre d'étudiants ayant un identifiant  : ");
         label.setFont(fontText);
 
-        /*spinnerLigneIdentifiant = new Spinner<>();
-        spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
-        spinnerLigneIdentifiant.setValueFactory(spinnerValueFactory);
-        spinnerLigneIdentifiant.setTranslateX(300);
-        spinnerLigneIdentifiant.setTranslateY(-4);
-        spinnerLigneIdentifiant.setEditable(true);
-        //spinner.valueProperty().addListener(observable -> System.out.printf("Valeur sélectionnée: %s", spinner.getValue()).println());*/
-
         integerTextFieldLigneIdentifiant = new IntegerTextField();
         integerTextFieldLigneIdentifiant.setTranslateX(300);
         integerTextFieldLigneIdentifiant.setTranslateY(-4);
-
 
         group.getChildren().addAll(label, integerTextFieldLigneIdentifiant);
         group.setTranslateX(translateX);
@@ -272,22 +231,6 @@ public abstract class FonctionAffichage extends Group {
         return fileIdentifiant;
     }
 
-    /*public Spinner<Integer> getSpinnerEtudiant() {
-        return spinnerEtudiant;
-    }
-
-    public Spinner<Integer> getSpinnerNombreQCM() {
-        return spinnerQCM;
-    }
-
-    public Spinner<Integer> getSpinnerLigneReponseQCM() {
-        return spinnerLigneReponse;
-    }
-
-    public Spinner<Integer> getSpinnerNombreLigneIdentifiant() {
-        return spinnerLigneIdentifiant;
-    }*/
-
     public IntegerTextField getIntegerTextFieldEtudiant() {
         return integerTextFieldEtudiant;
     }
@@ -308,7 +251,4 @@ public abstract class FonctionAffichage extends Group {
         return start;
     }
 
-    public Button getQuitter() {
-        return quitter;
-    }
 }

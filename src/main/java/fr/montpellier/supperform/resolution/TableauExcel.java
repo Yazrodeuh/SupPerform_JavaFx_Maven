@@ -7,7 +7,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,8 +17,8 @@ public class TableauExcel {
     private File fileReponse, fileId;
     private XSSFSheet sheetReponse, sheetId;
     private XSSFWorkbook workbookReponse, workbookId;
-    private Calcul calcul;
-    private FonctionAffichage notation;
+    private final Calcul calcul;
+    private final FonctionAffichage notation;
     private Alert alert;
 
     public TableauExcel(FonctionAffichage notation, double retrait){
@@ -254,9 +253,12 @@ public class TableauExcel {
             workbookReponse.write(fileOut);
             workbookReponse.close();
             fileOut.close();
-            JOptionPane.showMessageDialog(null, "Le programme a correctement foonctionné !\n Vous pouvez quitter.");
         } catch (FileNotFoundException | NullPointerException n) {
-            JOptionPane.showMessageDialog(null, "Fermer le fichier Excel puis recommencer.");
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Fermer le fichier Excel des Réponses puis recommencer.");
+            alert.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -268,16 +270,20 @@ public class TableauExcel {
             workbookId.write(fileOut);
             workbookId.close();
             fileOut.close();
-            JOptionPane.showMessageDialog(null, "Le programme a correctement foonctionné !\n Vous pouvez quitter.");
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("Le programme a correctement foonctionné !");
+            alert.showAndWait();
         } catch (FileNotFoundException | NullPointerException n) {
-            JOptionPane.showMessageDialog(null, "Fermer le fichier Excel puis recommencer.");
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Fermer le fichier Excel des Identifiants puis recommencer.");
+            alert.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
-
 
 }

@@ -35,7 +35,7 @@ public class Accueil extends Group {
             Scene notationNormale = new Scene(new Notation(main, 0.25), main.getWidth(), main.getHeight());
             notationNormale.setFill(Color.LIGHTGRAY);
             notationNormale.getStylesheets().add("/Button.css");
-            main.getStage().setTitle("Sup'Perform Notation normale");
+            main.getStage().setTitle("Sup'Perform Notation Normale");
             main.getStage().setScene(notationNormale);
         });
         boutonNotationNormale.setTranslateX(main.getWidth()/2 - largeurButton /2);
