@@ -256,7 +256,7 @@ public abstract class FonctionAffichage extends Group {
         quitter.setOnAction(actionEvent -> {
             Scene accueil = new Scene(new Accueil(main), main.getWidth(), main.getHeight());
             accueil.setFill(Color.LIGHTGRAY);
-            accueil.getStylesheets().add("fr/montpellier/supperform/Button.css");
+            accueil.getStylesheets().add("/Button.css");
             main.getStage().setTitle("Sup'Perform Accueil");
             main.getStage().setScene(accueil);
 

@@ -23,7 +23,7 @@ public class Accueil extends Group {
         boutonId.setOnAction(actionEvent -> {
             Scene identifiant = new Scene(new Identifiant(main), main.getWidth(), main.getHeight());
             identifiant.setFill(Color.LIGHTGRAY);
-            identifiant.getStylesheets().add("fr/montpellier/supperform/Button.css");
+            identifiant.getStylesheets().add("/Button.css");
             main.getStage().setTitle("Sup'Perform Identifiant");
             main.getStage().setScene(identifiant);
         });
@@ -34,7 +34,7 @@ public class Accueil extends Group {
         boutonNotationNormale.setOnAction(actionEvent -> {
             Scene notationNormale = new Scene(new Notation(main, 0.25), main.getWidth(), main.getHeight());
             notationNormale.setFill(Color.LIGHTGRAY);
-            notationNormale.getStylesheets().add("fr/montpellier/supperform/Button.css");
+            notationNormale.getStylesheets().add("/Button.css");
             main.getStage().setTitle("Sup'Perform Notation normale");
             main.getStage().setScene(notationNormale);
         });
@@ -45,7 +45,7 @@ public class Accueil extends Group {
         boutonNotationUE7.setOnAction(actionEvent -> {
             Scene notationUE7 = new Scene(new Notation(main, 0.5), main.getWidth(), main.getHeight());
             notationUE7.setFill(Color.LIGHTGRAY);
-            notationUE7.getStylesheets().add("fr/montpellier/supperform/Button.css");
+            notationUE7.getStylesheets().add("/Button.css");
             main.getStage().setTitle("Sup'Perform Notation UE7");
             main.getStage().setScene(notationUE7);
         });
