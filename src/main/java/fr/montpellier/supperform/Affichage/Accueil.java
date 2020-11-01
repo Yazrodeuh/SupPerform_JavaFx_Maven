@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 
@@ -12,7 +13,7 @@ public class Accueil extends Group {
     public Accueil (Main main){
 
         Button boutonNotationNormale = new Button("Notation normale");
-        Button boutonNotationUE7 = new Button("Notation UE7");
+        Button boutonNotationUE5 = new Button("Notation UE5");
         Button boutonId = new Button("Identifiants");
         Button support = new Button("Support");
         Button boutonQuitter = new Button("Quitter");
@@ -21,7 +22,7 @@ public class Accueil extends Group {
         double hauteurButton = 40;
         boutonId.setPrefSize(largeurButton, hauteurButton);
         boutonId.setOnAction(actionEvent -> {
-            Scene identifiant = new Scene(new Identifiant(main), main.getWidth(), main.getHeight());
+            Scene identifiant = new Scene(new StackPane(new Identifiant(main)), main.getWidth(), main.getHeight());
             identifiant.setFill(Color.LIGHTGRAY);
             identifiant.getStylesheets().add("/Button.css");
             main.getStage().setTitle("Sup'Perform Identifiant");
@@ -32,7 +33,7 @@ public class Accueil extends Group {
 
         boutonNotationNormale.setPrefSize(largeurButton, hauteurButton);
         boutonNotationNormale.setOnAction(actionEvent -> {
-            Scene notationNormale = new Scene(new Notation(main, 0.25), main.getWidth(), main.getHeight());
+            Scene notationNormale = new Scene(new StackPane(new Notation(main, 0.25)), main.getWidth(), main.getHeight());
             notationNormale.setFill(Color.LIGHTGRAY);
             notationNormale.getStylesheets().add("/Button.css");
             main.getStage().setTitle("Sup'Perform Notation Normale");
@@ -41,16 +42,17 @@ public class Accueil extends Group {
         boutonNotationNormale.setTranslateX(main.getWidth()/2 - largeurButton /2);
         boutonNotationNormale.setTranslateY(boutonId.getTranslateY() - 120);
 
-        boutonNotationUE7.setPrefSize(largeurButton, hauteurButton);
-        boutonNotationUE7.setOnAction(actionEvent -> {
-            Scene notationUE7 = new Scene(new Notation(main, 0.5), main.getWidth(), main.getHeight());
-            notationUE7.setFill(Color.LIGHTGRAY);
-            notationUE7.getStylesheets().add("/Button.css");
-            main.getStage().setTitle("Sup'Perform Notation UE7");
-            main.getStage().setScene(notationUE7);
+        boutonNotationUE5.setPrefSize(largeurButton, hauteurButton);
+        boutonNotationUE5.setOnAction(actionEvent -> {
+            Scene notationUE5 = new Scene(new StackPane(new Notation(main, 0.5)), main.getWidth(), main.getHeight());
+            notationUE5.setFill(Color.LIGHTGRAY);
+            notationUE5.getStylesheets().add("/Button.css");
+            main.getStage().setTitle("Sup'Perform Notation UE5");
+            main.getStage().setScene(notationUE5);
         });
-        boutonNotationUE7.setTranslateX(main.getWidth()/2 - largeurButton /2);
-        boutonNotationUE7.setTranslateY(boutonId.getTranslateY() - 60);
+
+        boutonNotationUE5.setTranslateX(main.getWidth()/2 - largeurButton /2);
+        boutonNotationUE5.setTranslateY(boutonId.getTranslateY() - 60);
 
         support.setPrefSize(largeurButton, hauteurButton);
         support.setOnAction(actionEvent -> {
@@ -69,7 +71,7 @@ public class Accueil extends Group {
         boutonQuitter.setTranslateX(main.getWidth()/2 - largeurButton /2);
         boutonQuitter.setTranslateY(boutonId.getTranslateY() + 120);
 
-        this.getChildren().addAll(boutonNotationNormale, boutonNotationUE7, boutonId, support, boutonQuitter);
+        this.getChildren().addAll(boutonNotationNormale, boutonNotationUE5, boutonId, support, boutonQuitter);
 
 
     }

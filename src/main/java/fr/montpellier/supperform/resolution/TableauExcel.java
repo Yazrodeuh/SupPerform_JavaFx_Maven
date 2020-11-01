@@ -17,17 +17,16 @@ public class TableauExcel {
     private File fileReponse, fileId;
     private XSSFSheet sheetReponse, sheetId;
     private XSSFWorkbook workbookReponse, workbookId;
-    private final Calcul calcul;
-    private final FonctionAffichage notation;
+    private Calcul calcul;
+    private FonctionAffichage notation;
     private Alert alert;
 
     public TableauExcel(FonctionAffichage notation, double retrait){
-        calcul = new Calcul(retrait);
         this.notation = notation;
+        calcul = new Calcul(retrait);
     }
 
     public boolean recuperationFichierReponse() {
-
         try {
             fileReponse = notation.getFileReponse();
             FileInputStream fileInputStreamReponse = new FileInputStream(fileReponse);
@@ -40,14 +39,14 @@ public class TableauExcel {
             alert.setHeaderText(null);
             alert.setContentText("Le fichier n'a pas était trouvé. \nVeuillez réessayer");
             alert.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }catch (ODFNotOfficeXmlFileException n){
+        } catch (ODFNotOfficeXmlFileException n){
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
             alert.setHeaderText(null);
             alert.setContentText("Le format du fichier est incorect. \nVeuillez réessayer");
             alert.showAndWait();
+        }catch (IOException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -64,7 +63,6 @@ public class TableauExcel {
             alert.showAndWait();
             return false;
         }
-
     }
 
     public boolean recuperationNombreColonne(){
@@ -117,10 +115,12 @@ public class TableauExcel {
             for (int i = 0; i < nombreLigne; i++) {
 
                 XSSFCell cellReponseNom = sheetReponse.getRow(i + 1).getCell(0);
-                ArrayList<String> reponseNom = calcul.creationTableauEspace(cellReponseNom);
+                //ArrayList<String> reponseNom = calcul.creationTableauEspace(cellReponseNom);
+                String reponseNomTest = cellReponseNom.getStringCellValue().toUpperCase();
 
                 XSSFCell cellReponsePrenom = sheetReponse.getRow(i + 1).getCell(1);
-                ArrayList<String> reponsePrenom = calcul.creationTableauEspace(cellReponsePrenom);
+                //ArrayList<String> reponsePrenom = calcul.creationTableauEspace(cellReponsePrenom);
+                String reponsePrenomTest = cellReponsePrenom.getStringCellValue().toUpperCase();
 
                 XSSFCell cellReponseId = sheetReponse.getRow(i + 1).createCell(2);
                 cellReponseId.setCellValue("");
@@ -131,17 +131,19 @@ public class TableauExcel {
                 for (int j = 1; j < notation.getIntegerTextFieldLigneIdentifiant().getInt(); j++) {
 
                     XSSFCell cellIdNom = sheetId.getRow(j).getCell(0);
-                    ArrayList<String> idNom = calcul.creationTableauEspace(cellIdNom);
+                    //ArrayList<String> idNom = calcul.creationTableauEspace(cellIdNom);
+                    String idNomTest = cellIdNom.getStringCellValue().toUpperCase();
 
                     XSSFCell cellIdPrenom = sheetId.getRow(j).getCell(1);
-                    ArrayList<String> idPrenom = calcul.creationTableauEspace(cellIdPrenom);
+                    //ArrayList<String> idPrenom = calcul.creationTableauEspace(cellIdPrenom);
+                    String idPrenomTest = cellIdPrenom.getStringCellValue().toUpperCase();
 
                     XSSFCell cellId = sheetId.getRow(j).getCell(2);
                     XSSFCell cellIdLieuInscription = sheetId.getRow(j).getCell(3);
 
-                    if (idNom.size() == reponseNom.size() && idPrenom.size() == reponsePrenom.size()) {
+                    if (idNomTest.equals(reponseNomTest) && idPrenomTest.equals(reponsePrenomTest)) {
 
-                        boolean different = false;
+                        /*boolean different = false;
                         for (int k = 0; k < reponseNom.size(); k++) {
                             if (!reponseNom.get(k).equals(idNom.get(k))) {
                                 different = true;
@@ -156,12 +158,12 @@ public class TableauExcel {
                                 break;
                             }
                         }
-                        if (!different) {
+                        if (!different) {*/
                             cellReponseNom.setCellValue(cellIdNom.getStringCellValue());
                             cellReponsePrenom.setCellValue(cellIdPrenom.getStringCellValue());
-                            cellReponseId.setCellValue(cellId.getNumericCellValue());
-                            cellReponseLieuInscription.setCellValue(cellIdLieuInscription.getStringCellValue());
-                        }
+                            cellReponseId.setCellValue(cellIdLieuInscription.getNumericCellValue());
+                            cellReponseLieuInscription.setCellValue(cellId.getStringCellValue());
+                        /*}*/
                     }
                 }
             }
@@ -178,22 +180,36 @@ public class TableauExcel {
 
     public boolean calculNote(){
         if(notation.getIntegerTextFieldLigneReponse().getInt() > nombreLigne){
-            double[][] tableauResultat = new double[nombreLigne][nombreColonne];
+            //double[][] tableauResultat = new double[nombreLigne][nombreColonne];
 
-            for (double[] doubles : tableauResultat) {
-                Arrays.fill(doubles, 0);
+            int positionDebutReponse = 0;
+            while (!sheetReponse.getRow(0).getCell(positionDebutReponse).getStringCellValue().startsWith("Réponse 1")){
+                //System.out.println(positionDebutReponse);
+                positionDebutReponse++;
             }
+            System.out.println(positionDebutReponse);
+
+            /*for (double[] doubles : tableauResultat) {
+                Arrays.fill(doubles, 0);
+            }*/
+
+            sheetReponse.getRow(0).createCell(positionDebutReponse + nombreColonne + 4 + nombreColonne).setCellValue("Note finale");
 
             for (int i = 0; i < nombreColonne; i++) {
 
                 XSSFCell cellReponseQCM = sheetReponse.getRow(notation.getIntegerTextFieldLigneReponse().getInt() - 1).getCell(i);
                 ArrayList<String> reponseQCM = calcul.creationTableauReponse(cellReponseQCM);
 
-                //System.out.println(reponseQCM.toString());
+                sheetReponse.getRow(0).createCell(positionDebutReponse + i + nombreColonne + 3).setCellValue("Note réponse " + (i+1));
+
+                System.out.println("reponse :" + Arrays.toString(reponseQCM.toArray()));
 
                 for (int j = 0; j < nombreLigne; j++) {      //génère les résultats de chaque QCM pour chaque Etudiant et l'ajoute dans un tableau à deux dimensions
 
-                    XSSFCell cellReponseEtudiantQCM = sheetReponse.getRow(1 + j).getCell(10 + i);
+                    //double total = 0;
+
+                    XSSFCell cellReponseEtudiantQCM = sheetReponse.getRow(1 + j).getCell(positionDebutReponse + i);
+                    System.out.println(cellReponseEtudiantQCM);
                     ArrayList<String> reponseEtudiantQCM = calcul.creationTableau(cellReponseEtudiantQCM);
 
                     //System.out.println(reponseEtudiantQCM.toString());
@@ -201,26 +217,38 @@ public class TableauExcel {
 
                     double resultat = calcul.resultatEtudiantAuQCM(reponseQCM, reponseEtudiantQCM);      //calcul du resultat en appelant la fonction resultatEtudiantAuQCM
 
-                    tableauResultat[j][i] = resultat;        //ajoute les résultats au tableaux
+                    //tableauResultat[j][i] = resultat;        //ajoute les résultats au tableaux
 
-                    XSSFCell cellResultatEtudiantQCM = sheetReponse.getRow(1 + j).createCell(10 + i + nombreColonne + 6); //créé les nouvelles cellules où seront enregistrées les résultats
-                    cellResultatEtudiantQCM.setCellValue(false);
+                    XSSFCell cellResultatEtudiantQCM = sheetReponse.getRow(1 + j).createCell(positionDebutReponse + i + nombreColonne + 3); //créé les nouvelles cellules où seront enregistrées les résultats
+                    cellResultatEtudiantQCM.setCellValue("");
+
+                    cellResultatEtudiantQCM.setCellValue(resultat);    //rempli la cellule avec les résultats
+
+                    //total += tableauResultat[j][i];
+
+                    if(sheetReponse.getRow(1 + j).getCell(positionDebutReponse + nombreColonne + 4 + nombreColonne) == null){
+                        XSSFCell cellResultatTotalEtudiantQCM = sheetReponse.getRow(1 + j).createCell(positionDebutReponse + nombreColonne + 4 + nombreColonne);
+                        cellResultatTotalEtudiantQCM.setCellValue(cellResultatTotalEtudiantQCM.getNumericCellValue() + resultat);
+                    }else {
+                        XSSFCell cellResultatTotalEtudiantQCM = sheetReponse.getRow(1 + j).getCell(positionDebutReponse + nombreColonne + 4 + nombreColonne);
+                        cellResultatTotalEtudiantQCM.setCellValue(cellResultatTotalEtudiantQCM.getNumericCellValue() + resultat);
+                    }
                 }
             }
 
-            for (int i = 0; i < nombreColonne; i++) {
+            /*for (int i = 0; i < nombreColonne; i++) {
                 for (int j = 0; j < nombreLigne; j++) {
-                    XSSFCell cellResultatEtudiantQCM = sheetReponse.getRow(1 + j).getCell(10 + i + nombreColonne + 6); //récupère le contenu de chaque cellule
+                    XSSFCell cellResultatEtudiantQCM = sheetReponse.getRow(1 + j).getCell(positionDebutReponse + i + nombreColonne + 6); //récupère le contenu de chaque cellule
                     cellResultatEtudiantQCM.setCellValue(tableauResultat[j][i]);    //rempli la cellule avec les résultats
                 }
-            }
+            }*/
 
-            for (int i = 0; i < nombreLigne; i++) {
+            /*for (int i = 0; i < nombreLigne; i++) {
 
                 double total = 0;
 
                 XSSFCell cellResultatTotalEtudiantQCM = sheetReponse.getRow(1 + i).createCell(10 + nombreColonne + nombreColonne + 7);
-                cellResultatTotalEtudiantQCM.setCellValue(false);
+                cellResultatTotalEtudiantQCM.setCellValue("");
 
                 for (int j = 0; j < nombreColonne; j++) {
 
@@ -228,7 +256,8 @@ public class TableauExcel {
                     total += tableauResultat[i][j];
                     cellResultatTotalEtudiantQCM.setCellValue(total);
                 }
-            }
+            }*/
+
             return true;
         }else if(notation.getIntegerTextFieldLigneReponse().getInt() == 0){
             alert = new Alert(Alert.AlertType.ERROR);
@@ -273,8 +302,9 @@ public class TableauExcel {
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information");
             alert.setHeaderText(null);
-            alert.setContentText("Le programme a correctement foonctionné !");
+            alert.setContentText("Le programme a correctement fonctionné !");
             alert.showAndWait();
+            notation.buttonQuitter();
         } catch (FileNotFoundException | NullPointerException n) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");

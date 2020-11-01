@@ -5,11 +5,13 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
 
 public abstract class FonctionAffichage extends Group {
@@ -201,7 +203,10 @@ public abstract class FonctionAffichage extends Group {
         quitter.setTranslateX(400-translateX - quitter.getWidth()/2 + 60);
 
         buttonStart();
-        buttonQuitter();
+
+        quitter.setOnAction(actionEvent -> {
+            buttonQuitter();
+        });
 
         group.getChildren().addAll(start, quitter);
         group.setTranslateX(translateX);
@@ -211,16 +216,13 @@ public abstract class FonctionAffichage extends Group {
     }
 
     public void buttonStart(){}
+
     public void buttonQuitter(){
-        quitter.setOnAction(actionEvent -> {
-            Scene accueil = new Scene(new Accueil(main), main.getWidth(), main.getHeight());
-            accueil.setFill(Color.LIGHTGRAY);
-            accueil.getStylesheets().add("/Button.css");
-            main.getStage().setTitle("Sup'Perform Accueil");
-            main.getStage().setScene(accueil);
-
-
-        });
+        Scene accueil = new Scene(new StackPane(new Accueil(main)), main.getWidth(), main.getHeight());
+        accueil.setFill(Color.LIGHTGRAY);
+        accueil.getStylesheets().add("/Button.css");
+        main.getStage().setTitle("Sup'Perform Accueil");
+        main.getStage().setScene(accueil);
     }
 
     public File getFileReponse() {
