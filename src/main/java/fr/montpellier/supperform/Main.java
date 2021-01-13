@@ -9,38 +9,27 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private final double width = 800, height = 500;
-    private final Scene accueil = new Scene(new StackPane(new Accueil(this)), width, height);
-    private Stage stage;
+    public static final double WIDTH = 800, HEIGHT = 500;
+    private final Scene accueil = new Scene(new StackPane(new Accueil()), WIDTH, HEIGHT);
+    public static Stage STAGE;
 
     @Override
     public void start(Stage primaryStage) {
 
-        stage = primaryStage;
+        STAGE = primaryStage;
 
         accueil.setFill(Color.LIGHTGRAY);
         accueil.getStylesheets().add("/Button.css");
 
-        stage.setTitle("Sup'Perform Accueil");
-        stage.setScene(accueil);
+        STAGE.setTitle("Sup'Perform Accueil");
+        STAGE.setScene(accueil);
 
-        stage.show();
+        STAGE.show();
     }
 
-    public Stage getStage() {
-        return stage;
-    }
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public double getHeight() {
-        return height;
     }
 
 }

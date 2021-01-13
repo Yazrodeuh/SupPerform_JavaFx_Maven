@@ -3,9 +3,7 @@ package fr.montpellier.supperform.Affichage;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
-
 public class IntegerTextField extends TextField {
-
 
     public IntegerTextField() {
         super();

@@ -4,25 +4,32 @@ import fr.montpellier.supperform.Main;
 import fr.montpellier.supperform.javaFX.ButtonFX;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 
 public class Accueil extends Group {
 
-    public Accueil (Main main){
+    public Accueil (){
 
-        double width = 150, height = 40, transX = main.getWidth()/2 - width /2, transY = main.getHeight()/2 - height /2;
+        double width = 150, height = 40, transX = Main.WIDTH/2 - width /2, transY = Main.HEIGHT/2 - height /2;
 
         ButtonFX boutonNotationNormale = new ButtonFX("Notation normale", width, height, transX, transY - 120);
+        boutonNotationNormale.eventScene(new Notation(main, 0.25), "Sup'Perform | Notation Normale");
+
         ButtonFX boutonNotationUE5 = new ButtonFX("Notation UE5", width, height, transX, transY - 60);
+        boutonNotationUE5.eventScene(new Notation(main, 0.5), "Sup'Perform | Notation UE5");
+
         ButtonFX boutonId = new ButtonFX("Identifiants", width, height, transX, transY);
+        boutonId.eventScene(new Identifiant(main), "Sup'Perform | Identifiant");
+
         ButtonFX support = new ButtonFX("Support", width, height, transX, transY + 60);
+        support.setOnAction(actionEvent -> FenetreAlert.info("Pour tout problème ou question, vous pouvez me contacter à l'adresse mail suivante : \n\nmax.poujol21@gmail.com \n"));
+
         ButtonFX boutonQuitter = new ButtonFX("Quitter", width, height, transX, transY + 120);
+        boutonQuitter.setOnAction(actionEvent -> System.exit(0));
 
-
-        boutonId.setOnAction(actionEvent -> {
+       /* boutonId.setOnAction(actionEvent -> {
             Scene identifiant = new Scene(new StackPane(new Identifiant(main)), main.getWidth(), main.getHeight());
             identifiant.setFill(Color.LIGHTGRAY);
             identifiant.getStylesheets().add("/Button.css");
@@ -46,18 +53,9 @@ public class Accueil extends Group {
             main.getStage().setScene(notationUE5);
         });
 
-        support.setOnAction(actionEvent -> {
-            FenetreAlert.info("Pour tout problème ou question, vous pouvez me contacter à l'adresse mail suivante : \n\nmax.poujol21@gmail.com \n");
-        });
-
-
-        boutonQuitter.setOnAction(actionEvent -> System.exit(0));
-
-
+       */
         this.getChildren().addAll(boutonNotationNormale, boutonNotationUE5, boutonId, support, boutonQuitter);
 
-
     }
-
 
 }
