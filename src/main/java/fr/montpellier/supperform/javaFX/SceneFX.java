@@ -10,7 +10,7 @@ public class SceneFX extends Scene {
 
     public SceneFX(Parent parent) {
         super(new StackPane(parent), Main.WIDTH, Main.HEIGHT);
-        this.setFill(Color.LIGHTGRAY);
+        //this.setFill(Color.YELLOW);
         this.getStylesheets().add("/Button.css");
     }
 

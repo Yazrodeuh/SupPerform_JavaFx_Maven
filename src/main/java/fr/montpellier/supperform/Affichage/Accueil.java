@@ -15,13 +15,13 @@ public class Accueil extends Group {
         double width = 150, height = 40, transX = Main.WIDTH/2 - width /2, transY = Main.HEIGHT/2 - height /2;
 
         ButtonFX boutonNotationNormale = new ButtonFX("Notation normale", width, height, transX, transY - 120);
-        boutonNotationNormale.eventScene(new Notation(main, 0.25), "Sup'Perform | Notation Normale");
+        boutonNotationNormale.eventScene(new Notation( 0.25), "Sup'Perform | Notation Normale");
 
         ButtonFX boutonNotationUE5 = new ButtonFX("Notation UE5", width, height, transX, transY - 60);
-        boutonNotationUE5.eventScene(new Notation(main, 0.5), "Sup'Perform | Notation UE5");
+        boutonNotationUE5.eventScene(new Notation(0.5), "Sup'Perform | Notation UE5");
 
         ButtonFX boutonId = new ButtonFX("Identifiants", width, height, transX, transY);
-        boutonId.eventScene(new Identifiant(main), "Sup'Perform | Identifiant");
+        boutonId.eventScene(new Identifiant(), "Sup'Perform | Identifiant");
 
         ButtonFX support = new ButtonFX("Support", width, height, transX, transY + 60);
         support.setOnAction(actionEvent -> FenetreAlert.info("Pour tout problème ou question, vous pouvez me contacter à l'adresse mail suivante : \n\nmax.poujol21@gmail.com \n"));

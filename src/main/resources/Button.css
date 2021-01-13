@@ -9,6 +9,7 @@
     -fx-text-fill: black;
     -fx-font-size: 13;
 }
+
 .color-picker{
     -fx-background-color: lightgray;
 }

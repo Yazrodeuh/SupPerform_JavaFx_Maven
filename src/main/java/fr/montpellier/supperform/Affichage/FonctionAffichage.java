@@ -1,6 +1,9 @@
 package fr.montpellier.supperform.Affichage;
 
 import fr.montpellier.supperform.Main;
+import fr.montpellier.supperform.javaFX.ButtonFX;
+import fr.montpellier.supperform.javaFX.LabelFX;
+import fr.montpellier.supperform.javaFX.SceneFX;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,49 +27,39 @@ public abstract class FonctionAffichage extends Group {
     private final int translateX;
     private final double height, decalage = 10, nbLigne;
     private Button start, quitter;
-    private final Main main;
 
-    public FonctionAffichage(Main main, int nbLigne){
+    public FonctionAffichage(int nbLigne){
         this.nbLigne = nbLigne;
-        this.main = main;
-        height = main.getHeight();
+        height = Main.HEIGHT;
         translateX = 80;
     }
 
     public Label titreReponse(int position){
-        Label label = new Label("FICHIER REPONSES : ");
-        label.setFont(fontTitre);
-        label.setTranslateX(40);
-        label.setTranslateY(height/nbLigne * position + decalage);
+         return new LabelFX("FICHIER REPONSES : ", fontTitre, 40, height/nbLigne * position + decalage);
         //labeltireReponse.setStyle("-fx-border-color: black;");
         //labeltireReponse.setBorder(new Border(new BorderStroke(, BorderStrokeStyle.SOLID, null, new BorderWidths(5))));
         //labeltireReponse.setTextFill(Paint.valueOf("Red"));
         //labeltireReponse.setEffect(new DropShadow());
         //labeltireReponse.setEffect(new Reflection());
-        return label;
     }
 
     public Group fichierReponse(int position){
 
         group = new Group();
 
-        Label label = new Label("Fichier réponse  :  ");
-        label.setFont(fontText);
+        LabelFX label = new LabelFX("Fichier réponse  :  ", fontText, 0, 0);
 
-        Label labelCheminAcces = new Label();
-        labelCheminAcces.setFont(fontText);
-        labelCheminAcces.setTranslateX(270);
 
-        Button button = new Button("Choisir un fichier");
-        button.setPrefSize(130, 15);
-        button.setTranslateX(140);
-        button.setTranslateY(-4);
+        LabelFX labelCheminAcces = new LabelFX("", fontText, 270, 0);
+
+        ButtonFX button = new ButtonFX("Choisir un fichier", 130, 15, 140, -4);
+
         button.setOnAction(actionEvent -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Fichier réponse");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Fichier XLSX (.xlsx)", "*.xlsx"));
             try {
-                fileReponse = fileChooser.showOpenDialog(new Main().getStage());
+                fileReponse = fileChooser.showOpenDialog(Main.STAGE);
                 fileChooser.setInitialDirectory(fileReponse.getParentFile());
                 labelCheminAcces.setText("" + fileReponse);
             }catch (NullPointerException ignored){
@@ -152,16 +145,11 @@ public abstract class FonctionAffichage extends Group {
         labelCheminAcces.setFont(fontText);
         labelCheminAcces.setTranslateX(270);
 
-        Button button = new Button("Choisir un fichier");
-        button.setPrefSize(130, 15);
-        button.setTranslateX(140);
-        button.setTranslateY(-4);
+        Button button = buttonChoixFichier();
         button.setOnAction(actionEvent -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Fichier réponse");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel .xlsx", "*.xlsx"));
+            FileChooser fileChooser = selectionFichier();
             try {
-                fileIdentifiant = fileChooser.showOpenDialog(new Main().getStage());
+                fileIdentifiant = fileChooser.showOpenDialog(Main.STAGE);
                 fileChooser.setInitialDirectory(fileIdentifiant.getParentFile());
                 labelCheminAcces.setText("" + fileIdentifiant);
             }catch (NullPointerException ignored){}
@@ -218,11 +206,9 @@ public abstract class FonctionAffichage extends Group {
     public void buttonStart(){}
 
     public void buttonQuitter(){
-        Scene accueil = new Scene(new StackPane(new Accueil(main)), main.getWidth(), main.getHeight());
-        accueil.setFill(Color.LIGHTGRAY);
-        accueil.getStylesheets().add("/Button.css");
-        main.getStage().setTitle("Sup'Perform Accueil");
-        main.getStage().setScene(accueil);
+        SceneFX accueil = new SceneFX(new Accueil());
+        Main.STAGE.setTitle("Sup'Perform | Accueil");
+        Main.STAGE.setScene(accueil);
     }
 
     public File getFileReponse() {
@@ -251,6 +237,17 @@ public abstract class FonctionAffichage extends Group {
 
     public Button getStart() {
         return start;
+    }
+
+    private ButtonFX buttonChoixFichier(){
+        return new ButtonFX("Choisir un fichier", 130, 15, 140, -4);
+    }
+
+    private FileChooser selectionFichier(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner un fichier");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel .xlsx", "*.xlsx"));
+        return fileChooser;
     }
 
 }
