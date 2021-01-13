@@ -1,8 +1,8 @@
 package fr.montpellier.supperform.Affichage;
+import fr.montpellier.supperform.FenetreAlert;
 import fr.montpellier.supperform.Main;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -56,12 +56,7 @@ public class Accueil extends Group {
 
         support.setPrefSize(largeurButton, hauteurButton);
         support.setOnAction(actionEvent -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText(null);
-            alert.setContentText("Pour tout problème ou question, vous pouvez me contacter à l'adresse mail suivante : \n\nmax.poujol21@gmail.com \n");
-
-            alert.showAndWait();
+            FenetreAlert.info("Pour tout problème ou question, vous pouvez me contacter à l'adresse mail suivante : \n\nmax.poujol21@gmail.com \n");
         });
         support.setTranslateX(main.getWidth()/2 - largeurButton /2);
         support.setTranslateY(boutonId.getTranslateY() + 60);

@@ -1,6 +1,7 @@
 package fr.montpellier.supperform.resolution;
 
 import fr.montpellier.supperform.Affichage.FonctionAffichage;
+import fr.montpellier.supperform.FenetreAlert;
 import javafx.scene.control.Alert;
 import org.apache.poi.openxml4j.exceptions.ODFNotOfficeXmlFileException;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -19,7 +20,7 @@ public class TableauExcel {
     private XSSFWorkbook workbookReponse, workbookId;
     private Calcul calcul;
     private FonctionAffichage notation;
-    private Alert alert;
+    //private Alert alert;
 
     public TableauExcel(FonctionAffichage notation, double retrait){
         this.notation = notation;
@@ -34,17 +35,9 @@ public class TableauExcel {
             sheetReponse = workbookReponse.getSheetAt(0);
             return true;
         } catch (NullPointerException n) {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Le fichier n'a pas était trouvé. \nVeuillez réessayer");
-            alert.showAndWait();
+            FenetreAlert.erreur("Le fichier n'a pas était trouvé. \nVeuillez réessayer");
         } catch (ODFNotOfficeXmlFileException n){
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Le format du fichier est incorect. \nVeuillez réessayer");
-            alert.showAndWait();
+            FenetreAlert.erreur("Le format du fichier est incorect. \nVeuillez réessayer");
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,11 +49,7 @@ public class TableauExcel {
         if( nombreLigne != 0){
             return true;
         }else {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Le nombre d'étudiants doit être différent de 0. \nVeuillez réessayer");
-            alert.showAndWait();
+            FenetreAlert.erreur("Le nombre d'étudiants doit être différent de 0. \nVeuillez réessayer");
             return false;
         }
     }
@@ -70,11 +59,7 @@ public class TableauExcel {
         if (nombreColonne != 0){
             return true;
         }else {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Le nombre de QCM doit être différent de 0. \nVeuillez réessayer");
-            alert.showAndWait();
+            FenetreAlert.erreur("Le nombre de QCM doit être différent de 0. \nVeuillez réessayer");
             return false;
         }
     }
@@ -87,19 +72,11 @@ public class TableauExcel {
             sheetId = workbookId.getSheetAt(0);
             return true;
         }catch (NullPointerException n) {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Le fichier n'a pas était trouvé. \nVeuillez réessayer");
-            alert.showAndWait();
+            FenetreAlert.erreur("Le fichier n'a pas était trouvé. \nVeuillez réessayer");
         } catch (IOException e) {
             e.printStackTrace();
         }catch (ODFNotOfficeXmlFileException n){
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Le format du fichier est incorect. \nVeuillez réessayer");
-            alert.showAndWait();
+            FenetreAlert.erreur("Le format du fichier est incorect. \nVeuillez réessayer");
         }
         return false;
     }
@@ -169,11 +146,7 @@ public class TableauExcel {
             }
             return true;
         }else {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Le nombre d'étudiants ayant un identifiant doit être différent de 0. \nVeuillez réessayer");
-            alert.showAndWait();
+            FenetreAlert.erreur("Le nombre d'étudiants ayant un identifiant doit être différent de 0. \nVeuillez réessayer");
             return false;
         }
     }
@@ -260,18 +233,10 @@ public class TableauExcel {
 
             return true;
         }else if(notation.getIntegerTextFieldLigneReponse().getInt() == 0){
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Vous ne pouvez pas entrer les réponses à la ligne 0. \nVeuillez réessayer");
-            alert.showAndWait();
+            FenetreAlert.erreur("Vous ne pouvez pas entrer les réponses à la ligne 0. \nVeuillez réessayer");
             return false;
         }else {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("La ligne à laquelle vous avez entré les bonnes réponses doit être supérieur au nombre d'étudiant. \nVeuillez réessayer");
-            alert.showAndWait();
+            FenetreAlert.erreur("La ligne à laquelle vous avez entré les bonnes réponses doit être supérieur au nombre d'étudiant. \nVeuillez réessayer");
             return false;
         }
     }
@@ -283,11 +248,7 @@ public class TableauExcel {
             workbookReponse.close();
             fileOut.close();
         } catch (FileNotFoundException | NullPointerException n) {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Fermer le fichier Excel des Réponses puis recommencer.");
-            alert.showAndWait();
+            FenetreAlert.erreur("Fermer le fichier Excel des Réponses puis recommencer.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -299,18 +260,10 @@ public class TableauExcel {
             workbookId.write(fileOut);
             workbookId.close();
             fileOut.close();
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText(null);
-            alert.setContentText("Le programme a correctement fonctionné !");
-            alert.showAndWait();
+            FenetreAlert.info("Le programme a correctement fonctionné !");
             notation.buttonQuitter();
         } catch (FileNotFoundException | NullPointerException n) {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Fermer le fichier Excel des Identifiants puis recommencer.");
-            alert.showAndWait();
+            FenetreAlert.erreur("Fermer le fichier Excel des Identifiants puis recommencer.");
         } catch (IOException e) {
             e.printStackTrace();
         }
