@@ -1,11 +1,9 @@
 package fr.montpellier.supperform.affichage;
 
-import fr.montpellier.supperform.FenetreAlert;
 import fr.montpellier.supperform.Main;
 import fr.montpellier.supperform.javaFX.*;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;

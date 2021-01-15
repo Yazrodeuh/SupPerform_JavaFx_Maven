@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Calcul {
 
     public String[] tableauCarractereReponse = {"A", "B", "C", "D", "E", "F", "G", "H", "I","J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "-"};
-    //public String[] tableauCarractere = {"A", "B", "C", "D", "E", "F"};
+    public String[] tableauCarractere = {"A", "B", "C", "D", "E", "F"};
     public ArrayList<String> tableau;
     public double retrait;
 
@@ -45,6 +45,7 @@ public class Calcul {
         return list;
     }
 
+
     public ArrayList<String> copierTableau(ArrayList<String> tableauACopier){
         return new ArrayList<>(tableauACopier);
     }
@@ -56,7 +57,7 @@ public class Calcul {
         return tableau;
     }
 
-    public String creationStringReponseEtudiant(XSSFCell cell) {
+    /*public String creationStringReponseEtudiant(XSSFCell cell) {
 
         //tableau = new ArrayList<>();
         StringBuilder reponse = new StringBuilder();
@@ -85,7 +86,7 @@ public class Calcul {
             }
         }
         return reponse.toString();
-    }
+    }*/
 
     public ArrayList<String> creationTableau(XSSFCell cell) {
 
@@ -127,7 +128,7 @@ public class Calcul {
         return tableau;
     }
 
-    public ArrayList<String> creationTableauEspace(XSSFCell cell) {
+    /*public ArrayList<String> creationTableauEspace(XSSFCell cell) {
 
         tableau = new ArrayList<>();
         String id = cell.getStringCellValue();
@@ -151,11 +152,12 @@ public class Calcul {
         }
         //System.out.println(Arrays.toString(tableau.toArray()));
         return tableau;
-    }
+    }*/
 
     public double resultatEtudiantAuQCM(ArrayList<String> reponseQCM, ArrayList<String> reponseEtudiant){
+
         double resultat = 1;
-        int positionI = 0, positionJ =0;
+        int positionI = 0, positionJ = 0;
         boolean aEteTrouve = false;
 
         ArrayList<String> copieReponseQCM = copierTableau(reponseQCM);
@@ -167,29 +169,24 @@ public class Calcul {
             return 0;
         }else if(copieReponseQCM.size() == 1 && copieReponseEtudiant.size() == 1){
             if(copieReponseEtudiant.get(0).equals(copieReponseQCM.get(0))) {
-                System.out.println("1");
                 return 1;
             }else if((copieReponseQCM.get(0).equals("F") || copieReponseEtudiant.get(0).equals("F")) && !copieReponseEtudiant.get(0).equals(copieReponseQCM.get(0))){
-                System.out.println("2");
                 return 0;
             } else{
-                System.out.println("3");
-                resultat -= 2 * retrait;
-                return resultat;
+                //resultat -= 2 * retrait;
+                return resultat - (2 * retrait);
             }
         }else{
-            for (String s : copieReponseEtudiant) {
-                if (s.equals("F")) {
-                    return 0;
-                }
-            }
+            if(copieReponseEtudiant.contains("F")) return 0;
+
+            /*
             for (int i = 0; i < copieReponseQCM.size(); i++) {
                 if(aEteTrouve){
                     aEteTrouve = false;
                     i = 0;
                 }
                 for (int j = 0; j < copieReponseEtudiant.size(); j++) {
-                    if (copieReponseQCM.get(i).contentEquals(copieReponseEtudiant.get(j))) {
+                    if(copieReponseQCM.get(i).equals(copieReponseEtudiant.get(j))) {
                         aEteTrouve = true;
                         positionI = i;
                         positionJ = j;
@@ -201,10 +198,24 @@ public class Calcul {
                     i = -1;
                 }
             }
+            */
+            for (int i = 0; i < copieReponseQCM.size(); i++) {
+                for (int j = 0; j < copieReponseEtudiant.size(); j++) {
+                    if(copieReponseQCM.get(i).equals(copieReponseEtudiant.get(j))) {
+                        copieReponseQCM.remove(i);
+                        copieReponseEtudiant.remove(j);
+                        i = 0;
+                        j = -1;
+                    }
+                }
+            }
         }
-        resultat -= (copieReponseEtudiant.size()+copieReponseQCM.size()) * retrait;
-        if(resultat < 0.5){     resultat = 0; }
-        return resultat;
+
+        return (resultat -= (copieReponseEtudiant.size() + copieReponseQCM.size()) * retrait) < 0.5 ? 0 : resultat;
+
+        //resultat -= (copieReponseEtudiant.size() + copieReponseQCM.size()) * retrait;
+        //if(resultat < 0.5)     return 0;
+        //return resultat;
     }
 
 }

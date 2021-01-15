@@ -1,7 +1,7 @@
 package fr.montpellier.supperform.excel;
 
 import fr.montpellier.supperform.affichage.FonctionAffichage;
-import fr.montpellier.supperform.FenetreAlert;
+import fr.montpellier.supperform.affichage.FenetreAlert;
 import fr.montpellier.supperform.resolution.Calcul;
 import org.apache.poi.openxml4j.exceptions.ODFNotOfficeXmlFileException;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -10,9 +10,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TableauExcel {
 
@@ -86,10 +83,10 @@ public class TableauExcel {
         for (int i = 0; i < nombreLigne; i++) {
 
             XSSFCell cellReponseNom = sheet.getRow(i + 1).getCell(0);
-            String reponseNomTest = cellReponseNom.getStringCellValue().toUpperCase();
+            String reponseNom = cellReponseNom.getStringCellValue().toUpperCase();
 
             XSSFCell cellReponsePrenom = sheet.getRow(i + 1).getCell(1);
-            String reponsePrenomTest = cellReponsePrenom.getStringCellValue().toUpperCase();
+            String reponsePrenom = cellReponsePrenom.getStringCellValue().toUpperCase();
 
             XSSFCell cellReponseId = sheet.getRow(i + 1).createCell(2);
             cellReponseId.setCellValue("");
@@ -97,7 +94,7 @@ public class TableauExcel {
             XSSFCell cellReponseLieuInscription = sheet.getRow(i + 1).createCell(3);
             cellReponseLieuInscription.setCellValue("");
 
-            if(idEtu[0][i].contains(reponsePrenomTest) && idEtu[1][i].contains(reponseNomTest)){
+            if(idEtu[0][i].contains(reponsePrenom) && idEtu[1][i].contains(reponseNom)){
                 cellReponseId.setCellValue(idEtu[2][i]);
                 cellReponseLieuInscription.setCellValue(idEtu[3][i]);
             }
@@ -123,14 +120,11 @@ public class TableauExcel {
 
                 sheetReponse.getRow(0).createCell(positionDebutReponse + i + nombreColonne + 3).setCellValue("Note réponse " + (i+1));
 
-                //System.out.println("reponse :" + Arrays.toString(reponseQCM.toArray()));
-
                 for (int j = 0; j < nombreLigne; j++) {      //génère les résultats de chaque QCM pour chaque Etudiant et l'ajoute dans un tableau à deux dimensions
 
                     //double total = 0;
 
                     XSSFCell cellReponseEtudiantQCM = sheetReponse.getRow(1 + j).getCell(positionDebutReponse + i);
-                    //System.out.println(cellReponseEtudiantQCM);
                     ArrayList<String> reponseEtudiantQCM = calcul.creationTableau(cellReponseEtudiantQCM);
 
                     //System.out.println(reponseEtudiantQCM.toString());

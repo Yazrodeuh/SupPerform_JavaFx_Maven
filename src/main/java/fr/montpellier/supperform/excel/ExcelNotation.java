@@ -1,6 +1,6 @@
 package fr.montpellier.supperform.excel;
 
-import fr.montpellier.supperform.FenetreAlert;
+import fr.montpellier.supperform.affichage.FenetreAlert;
 import fr.montpellier.supperform.affichage.Notation;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;

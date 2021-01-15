@@ -1,4 +1,4 @@
-package fr.montpellier.supperform;
+package fr.montpellier.supperform.affichage;
 
 import javafx.scene.control.Alert;
 

@@ -1,5 +1,4 @@
 package fr.montpellier.supperform.affichage;
-import fr.montpellier.supperform.FenetreAlert;
 import fr.montpellier.supperform.Main;
 import fr.montpellier.supperform.javaFX.ButtonFX;
 import javafx.scene.Group;
