@@ -1,6 +1,7 @@
 package fr.montpellier.supperform;
 
 import fr.montpellier.supperform.affichage.Accueil;
+import fr.montpellier.supperform.images.Images;
 import fr.montpellier.supperform.javaFX.SceneFX;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -20,6 +21,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        Images images = new Images();
         launch(args);
     }
 
