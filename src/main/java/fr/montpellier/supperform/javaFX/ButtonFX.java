@@ -6,11 +6,12 @@ import javafx.scene.Parent;
 
 public class ButtonFX extends Button {
 
-    public ButtonFX(String text, double width, double hight, double transX, double transY){
+    public ButtonFX(String text, double width, double height, double transX, double transY){
         setText(text);
-        setPrefSize(width, hight);
-        setTranslateX(transX);
-        setTranslateY(transY);
+        setPrefSize(width, height);
+
+        if(transX != 0) setTranslateX(transX);
+        if(transY != 0) setTranslateY(transY);
     }
 
     public void eventScene(Parent parent, String title){

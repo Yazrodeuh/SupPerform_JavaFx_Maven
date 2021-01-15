@@ -1,11 +1,8 @@
-package fr.montpellier.supperform.Affichage;
+package fr.montpellier.supperform.affichage;
 import fr.montpellier.supperform.FenetreAlert;
 import fr.montpellier.supperform.Main;
 import fr.montpellier.supperform.javaFX.ButtonFX;
 import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 
 
 public class Accueil extends Group {

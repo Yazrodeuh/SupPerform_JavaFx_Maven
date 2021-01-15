@@ -5,9 +5,13 @@ import javafx.scene.text.Font;
 
 public class LabelFX extends Label {
 
-    public LabelFX(String text, Font font, double transX, double transY){
+    public LabelFX(String text, Font font){
         setText(text);
         setFont(font);
+    }
+
+    public LabelFX(String text, Font font, double transX, double transY){
+        this(text, font);
 
         if(transX != 0){
             setTranslateX(transX);

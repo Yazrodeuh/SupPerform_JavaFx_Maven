@@ -1,24 +1,37 @@
-package fr.montpellier.supperform.Affichage;
+package fr.montpellier.supperform.javaFX;
 
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
-public class IntegerTextField extends TextField {
+public class IntTextFieldFX extends TextField {
 
-    public IntegerTextField() {
+    public IntTextFieldFX(double transX, double transY){
         super();
+        setTranslateX(transX);
+        setTranslateY(transY);
+        intValues();
+    }
 
-        addEventFilter(KeyEvent.KEY_TYPED, event -> {
+    public IntTextFieldFX(double width, double height, double transX, double transY) {
+        this(transX, transY);
+        if(width != 0 && height != 0) setPrefSize(width, height);
+
+    }
+
+    private void intValues(){
+
+        this.addEventFilter(KeyEvent.KEY_TYPED, event -> {
             if (isValid(getText())) {
                 event.consume();
             }
         });
 
-        textProperty().addListener((observableValue, oldValue, newValue) -> {
+        this.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (isValid(newValue)) {
                 setText(oldValue);
             }
         });
+
     }
 
     private boolean isValid(String value) {

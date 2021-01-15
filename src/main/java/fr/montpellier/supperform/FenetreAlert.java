@@ -16,7 +16,7 @@ public class FenetreAlert {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText(null);
-        alert.setContentText(text);
+        alert.setContentText(text + "\nVeuillez réessayer");
         alert.showAndWait();
     }
 

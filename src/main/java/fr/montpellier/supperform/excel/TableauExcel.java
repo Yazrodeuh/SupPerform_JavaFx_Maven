@@ -1,8 +1,8 @@
-package fr.montpellier.supperform.resolution;
+package fr.montpellier.supperform.excel;
 
-import fr.montpellier.supperform.Affichage.FonctionAffichage;
+import fr.montpellier.supperform.affichage.FonctionAffichage;
 import fr.montpellier.supperform.FenetreAlert;
-import javafx.scene.control.Alert;
+import fr.montpellier.supperform.resolution.Calcul;
 import org.apache.poi.openxml4j.exceptions.ODFNotOfficeXmlFileException;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -11,143 +11,148 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TableauExcel {
 
-    private int nombreLigne, nombreColonne;
+    //private int nombreLigne, nombreColonne;
     private File fileReponse, fileId;
-    private XSSFSheet sheetReponse, sheetId;
+    //private XSSFSheet sheetReponse, sheetId;
     private XSSFWorkbook workbookReponse, workbookId;
     private Calcul calcul;
     private FonctionAffichage notation;
+    private Map<String, ArrayList> idEtu = new HashMap<>();
     //private Alert alert;
 
-    public TableauExcel(FonctionAffichage notation, double retrait){
-        this.notation = notation;
+    public TableauExcel(double retrait){
+        //this.notation = notation;
         calcul = new Calcul(retrait);
     }
 
-    public boolean recuperationFichierReponse() {
+    public XSSFSheet recuperationFichierReponse(File fileReponse) {
         try {
-            fileReponse = notation.getFileReponse();
+            //fileReponse = notation.getFileReponse();
             FileInputStream fileInputStreamReponse = new FileInputStream(fileReponse);
             workbookReponse = new XSSFWorkbook(fileInputStreamReponse);
-            sheetReponse = workbookReponse.getSheetAt(0);
-            return true;
+            return workbookReponse.getSheetAt(0);;
         } catch (NullPointerException n) {
             FenetreAlert.erreur("Le fichier n'a pas était trouvé. \nVeuillez réessayer");
+            return null;
         } catch (ODFNotOfficeXmlFileException n){
             FenetreAlert.erreur("Le format du fichier est incorect. \nVeuillez réessayer");
+            return null;
         }catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return false;
     }
 
-    public boolean recuperationNombreLigne(){
-        nombreLigne = notation.getIntegerTextFieldEtudiant().getInt();
-        if( nombreLigne != 0){
-            return true;
+    public int verifValueInt(int nb, String text){
+        if( nb != 0){
+            return nb;
         }else {
-            FenetreAlert.erreur("Le nombre d'étudiants doit être différent de 0. \nVeuillez réessayer");
-            return false;
+            FenetreAlert.erreur(text);
+            return 0;
         }
     }
 
-    public boolean recuperationNombreColonne(){
-        nombreColonne = notation.getIntegerTextFieldQCM().getInt();
-        if (nombreColonne != 0){
-            return true;
-        }else {
-            FenetreAlert.erreur("Le nombre de QCM doit être différent de 0. \nVeuillez réessayer");
-            return false;
-        }
-    }
-
-    public boolean recuperationFichierIdentifiant() {
+    public XSSFSheet recuperationFichierIdentifiant(File fileId) {
         try {
-            fileId = notation.getFileIdentifiant();
+            //fileId = notation.getFileIdentifiant();
             FileInputStream fileInputStreamId = new FileInputStream(fileId);
             workbookId = new XSSFWorkbook(fileInputStreamId);
             sheetId = workbookId.getSheetAt(0);
-            return true;
+            return sheetId;
         }catch (NullPointerException n) {
             FenetreAlert.erreur("Le fichier n'a pas était trouvé. \nVeuillez réessayer");
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }catch (ODFNotOfficeXmlFileException n){
             FenetreAlert.erreur("Le format du fichier est incorect. \nVeuillez réessayer");
+            return null;
         }
-        return false;
     }
 
-    public boolean attributionIdentifiant(){
-        if(notation.getIntegerTextFieldLigneIdentifiant().getInt() != 0){
-            XSSFCell cellReponseIdentifiant = sheetReponse.getRow(0).getCell(2);
-            cellReponseIdentifiant.setCellValue("Identifiant contrôle");
+    /**
+     **************************************************************************************
+     */
 
-            XSSFCell cellReponseLieu = sheetReponse.getRow(0).getCell(3);
-            cellReponseLieu.setCellValue("Lieu d'inscription");
+    public void recuperationValeurIdentifiant(int nbLigneEtuId, XSSFSheet sheet){
 
-            for (int i = 0; i < nombreLigne; i++) {
+        for (int i = 0; i < nbLigneEtuId; i++) {
+            XSSFCell cellIdNom = sheet.getRow(i + 1).getCell(0);
+            String idNomTest = cellIdNom.getStringCellValue().toUpperCase();
 
-                XSSFCell cellReponseNom = sheetReponse.getRow(i + 1).getCell(0);
-                //ArrayList<String> reponseNom = calcul.creationTableauEspace(cellReponseNom);
-                String reponseNomTest = cellReponseNom.getStringCellValue().toUpperCase();
+            XSSFCell cellIdPrenom = sheet.getRow(i + 1).getCell(1);
+            String idPrenomTest = cellIdPrenom.getStringCellValue().toUpperCase();
 
-                XSSFCell cellReponsePrenom = sheetReponse.getRow(i + 1).getCell(1);
-                //ArrayList<String> reponsePrenom = calcul.creationTableauEspace(cellReponsePrenom);
-                String reponsePrenomTest = cellReponsePrenom.getStringCellValue().toUpperCase();
+            XSSFCell cellId = sheet.getRow(i + 1).getCell(2);
+            XSSFCell cellIdLieuInscription = sheet.getRow(i + 1).getCell(3);
 
-                XSSFCell cellReponseId = sheetReponse.getRow(i + 1).createCell(2);
-                cellReponseId.setCellValue("");
+            ArrayList arrayList = new ArrayList();
+            arrayList.add(cellId.getNumericCellValue());
+            arrayList.add(cellIdLieuInscription.getStringCellValue());
 
-                XSSFCell cellReponseLieuInscription = sheetReponse.getRow(i + 1).createCell(3);
-                cellReponseLieuInscription.setCellValue("");
+            idEtu.put(idNomTest + "-" + idPrenomTest, arrayList);
+        }
 
-                for (int j = 1; j < notation.getIntegerTextFieldLigneIdentifiant().getInt(); j++) {
 
-                    XSSFCell cellIdNom = sheetId.getRow(j).getCell(0);
-                    //ArrayList<String> idNom = calcul.creationTableauEspace(cellIdNom);
-                    String idNomTest = cellIdNom.getStringCellValue().toUpperCase();
+    }
 
-                    XSSFCell cellIdPrenom = sheetId.getRow(j).getCell(1);
-                    //ArrayList<String> idPrenom = calcul.creationTableauEspace(cellIdPrenom);
-                    String idPrenomTest = cellIdPrenom.getStringCellValue().toUpperCase();
 
-                    XSSFCell cellId = sheetId.getRow(j).getCell(2);
-                    XSSFCell cellIdLieuInscription = sheetId.getRow(j).getCell(3);
 
-                    if (idNomTest.equals(reponseNomTest) && idPrenomTest.equals(reponsePrenomTest)) {
+    public void attributionIdentifiant(int nbLigneIdEtu, int nombreLigne, XSSFSheet sheetReponse){
+        XSSFCell cellReponseIdentifiant = sheetReponse.getRow(0).getCell(2);
+        cellReponseIdentifiant.setCellValue("Identifiant contrôle");
 
-                        /*boolean different = false;
-                        for (int k = 0; k < reponseNom.size(); k++) {
-                            if (!reponseNom.get(k).equals(idNom.get(k))) {
-                                different = true;
-                                break;
-                            }
-                        }
+        XSSFCell cellReponseLieu = sheetReponse.getRow(0).getCell(3);
+        cellReponseLieu.setCellValue("Lieu d'inscription");
 
-                        for (int k = 0; k < reponsePrenom.size(); k++) {
+        for (int i = 0; i < nombreLigne; i++) {
 
-                            if (!reponsePrenom.get(k).equals(idPrenom.get(k))) {
-                                different = true;
-                                break;
-                            }
-                        }
-                        if (!different) {*/
-                            cellReponseNom.setCellValue(cellIdNom.getStringCellValue());
-                            cellReponsePrenom.setCellValue(cellIdPrenom.getStringCellValue());
-                            cellReponseId.setCellValue(cellIdLieuInscription.getNumericCellValue());
-                            cellReponseLieuInscription.setCellValue(cellId.getStringCellValue());
-                        /*}*/
-                    }
+            XSSFCell cellReponseNom = sheetReponse.getRow(i + 1).getCell(0);
+            //ArrayList<String> reponseNom = calcul.creationTableauEspace(cellReponseNom);
+            String reponseNomTest = cellReponseNom.getStringCellValue().toUpperCase();
+
+            XSSFCell cellReponsePrenom = sheetReponse.getRow(i + 1).getCell(1);
+            //ArrayList<String> reponsePrenom = calcul.creationTableauEspace(cellReponsePrenom);
+            String reponsePrenomTest = cellReponsePrenom.getStringCellValue().toUpperCase();
+
+            XSSFCell cellReponseId = sheetReponse.getRow(i + 1).createCell(2);
+            cellReponseId.setCellValue("");
+
+            XSSFCell cellReponseLieuInscription = sheetReponse.getRow(i + 1).createCell(3);
+            cellReponseLieuInscription.setCellValue("");
+
+            /*for (int j = 1; j < nbLigneIdEtu; j++) {
+
+                XSSFCell cellIdNom = sheetId.getRow(j).getCell(0);
+                //ArrayList<String> idNom = calcul.creationTableauEspace(cellIdNom);
+                String idNomTest = cellIdNom.getStringCellValue().toUpperCase();
+
+                XSSFCell cellIdPrenom = sheetId.getRow(j).getCell(1);
+                //ArrayList<String> idPrenom = calcul.creationTableauEspace(cellIdPrenom);
+                String idPrenomTest = cellIdPrenom.getStringCellValue().toUpperCase();
+
+                XSSFCell cellId = sheetId.getRow(j).getCell(2);
+                XSSFCell cellIdLieuInscription = sheetId.getRow(j).getCell(3);
+
+                if (idNomTest.equals(reponseNomTest) && idPrenomTest.equals(reponsePrenomTest)) {
+                    cellReponseNom.setCellValue(cellIdNom.getStringCellValue());
+                    cellReponsePrenom.setCellValue(cellIdPrenom.getStringCellValue());
+                    cellReponseId.setCellValue(cellIdLieuInscription.getNumericCellValue());
+                    cellReponseLieuInscription.setCellValue(cellId.getStringCellValue());
                 }
+            }*/
+
+            if(idEtu.containsKey(reponseNomTest + "-" + reponsePrenomTest)){
+                cellReponseId.setCellValue(idEtu.get(reponseNomTest + "-" + reponsePrenomTest).get(0));
+                cellReponseLieuInscription.setCellValue(cellId.getStringCellValue());
             }
-            return true;
-        }else {
-            FenetreAlert.erreur("Le nombre d'étudiants ayant un identifiant doit être différent de 0. \nVeuillez réessayer");
-            return false;
+
         }
     }
 
@@ -208,28 +213,6 @@ public class TableauExcel {
                     }
                 }
             }
-
-            /*for (int i = 0; i < nombreColonne; i++) {
-                for (int j = 0; j < nombreLigne; j++) {
-                    XSSFCell cellResultatEtudiantQCM = sheetReponse.getRow(1 + j).getCell(positionDebutReponse + i + nombreColonne + 6); //récupère le contenu de chaque cellule
-                    cellResultatEtudiantQCM.setCellValue(tableauResultat[j][i]);    //rempli la cellule avec les résultats
-                }
-            }*/
-
-            /*for (int i = 0; i < nombreLigne; i++) {
-
-                double total = 0;
-
-                XSSFCell cellResultatTotalEtudiantQCM = sheetReponse.getRow(1 + i).createCell(10 + nombreColonne + nombreColonne + 7);
-                cellResultatTotalEtudiantQCM.setCellValue("");
-
-                for (int j = 0; j < nombreColonne; j++) {
-
-                    cellResultatTotalEtudiantQCM = sheetReponse.getRow(1 + i).getCell(10 + nombreColonne + nombreColonne + 7);
-                    total += tableauResultat[i][j];
-                    cellResultatTotalEtudiantQCM.setCellValue(total);
-                }
-            }*/
 
             return true;
         }else if(notation.getIntegerTextFieldLigneReponse().getInt() == 0){

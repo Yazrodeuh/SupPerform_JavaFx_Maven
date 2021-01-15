@@ -1,6 +1,6 @@
 package fr.montpellier.supperform;
 
-import fr.montpellier.supperform.Affichage.Accueil;
+import fr.montpellier.supperform.affichage.Accueil;
 import fr.montpellier.supperform.javaFX.SceneFX;
 import javafx.application.Application;
 import javafx.stage.Stage;

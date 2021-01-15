@@ -1,14 +1,14 @@
-package fr.montpellier.supperform.resolution;
+package fr.montpellier.supperform.excel;
 
-import fr.montpellier.supperform.Affichage.FonctionAffichage;
+import fr.montpellier.supperform.affichage.FonctionAffichage;
 
-public class ExcelIdentifiant extends TableauExcel{
+public class ExcelIdentifiant extends TableauExcel {
 
 
     public ExcelIdentifiant(FonctionAffichage notation) {
         super(notation, 0);
         recuperationFichierReponse();
-        recuperationNombreLigne();
+        verifValueInt();
         recuperationFichierIdentifiant();
         attributionIdentifiant();
         fermetureFichierReponse();
