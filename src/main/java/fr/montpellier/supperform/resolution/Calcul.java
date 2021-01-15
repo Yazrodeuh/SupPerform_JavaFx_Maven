@@ -157,13 +157,13 @@ public class Calcul {
     public double resultatEtudiantAuQCM(ArrayList<String> reponseQCM, ArrayList<String> reponseEtudiant){
 
         double resultat = 1;
-        int positionI = 0, positionJ = 0;
-        boolean aEteTrouve = false;
+        //int positionI = 0, positionJ = 0;
+        //boolean aEteTrouve = false;
 
         ArrayList<String> copieReponseQCM = copierTableau(reponseQCM);
         ArrayList<String> copieReponseEtudiant = copierTableau(reponseEtudiant);
-        System.out.println("Etudiant : " + copieReponseEtudiant.toString());
-        System.out.println("QCM : " + copieReponseQCM.toString());
+        //System.out.println("Etudiant : " + copieReponseEtudiant.toString());
+        //System.out.println("QCM : " + copieReponseQCM.toString());
 
         if(copieReponseEtudiant.size() == 0){
             return 0;
