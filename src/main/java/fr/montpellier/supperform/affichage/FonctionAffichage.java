@@ -37,24 +37,24 @@ public abstract class FonctionAffichage extends Group {
         return new LabelFX(titre, fontTitre, 0, Main.HEIGHT/nbLigne * position + decalage);
     }
 
-    public Group labelIntTextField(int position, String textLabel, IntTextFieldFX textFieldFX, double transX, double transY){
+    public GroupFX labelIntTextField(int position, String textLabel, double transX, double transY){
         GroupFX group = new GroupFX(translateX, height/nbLigne * position + decalage);
         LabelFX label = new LabelFX(textLabel, fontText);
 
-        textFieldFX = new IntTextFieldFX(transX, transY);
+        IntTextFieldFX textFieldFX = new IntTextFieldFX(transX, transY);
 
         group.addChild(label, textFieldFX);
         return group;
     }
 
-    public Group labelChoixFichier(int position, File file){
+    public GroupFX labelChoixFichier(int position){
         GroupFX group = new GroupFX(translateX, Main.HEIGHT/nbLigne * position + decalage);
 
         LabelFX label = new LabelFX("Choisir un fichier", fontText);
         LabelFX labelCheminAcces = new LabelFX("", fontText, 270, 0);
 
         ButtonFX button = new ButtonFX("Choisir un fichier", 130, 15, 140, -4);
-        button.setOnAction(actionEvent -> selectionFichier(labelCheminAcces, file));
+        button.setOnAction(actionEvent -> labelCheminAcces.setText(selectionFichier()));
 
         group.addChild(label, button, labelCheminAcces);
         return group;
@@ -232,16 +232,15 @@ public abstract class FonctionAffichage extends Group {
         return start;
     }
 
-    private File selectionFichier(Label label, File file){
+    private String selectionFichier(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Sélectionner un fichier");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel .xlsx", "*.xlsx"));
 
-        file = fileChooser.showOpenDialog(Main.STAGE);
+        File file = fileChooser.showOpenDialog(Main.STAGE);
 
         if(file != null){
-            label.setText("" + file);
-            return file;
+            return file + "";
         }else {
             FenetreAlert.erreur("Vous n'avez pas choisi de fichier \nVeuillez réessayer");
             return null;
