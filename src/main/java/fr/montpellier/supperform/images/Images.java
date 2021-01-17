@@ -46,6 +46,7 @@ public class Images {
 
             for (Color[] colors : couleur) {
                 System.out.println(Arrays.toString(colors) + "\n");
+                System.out.println(colors[0].getRed() + "-" + colors[0].getGreen() + "-" + colors[0].getBlue());
             }
 
             System.out.println(imgBF1.getHeight());
