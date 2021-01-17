@@ -14,7 +14,6 @@ public class TableauExcel {
 
     public XSSFWorkbook recuperationFichier(File file) {
         try {
-            System.out.println(file);
             FileInputStream fileInputStreamReponse = new FileInputStream(file);
             return new XSSFWorkbook(fileInputStreamReponse);
         } catch (NullPointerException n) {
