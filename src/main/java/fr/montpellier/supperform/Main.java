@@ -21,7 +21,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        Images images = new Images();
+        //Images images = new Images();
         launch(args);
     }
 

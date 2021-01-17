@@ -1,6 +1,5 @@
 package fr.montpellier.supperform.excel;
 
-import fr.montpellier.supperform.affichage.FonctionAffichage;
 import fr.montpellier.supperform.affichage.FenetreAlert;
 import fr.montpellier.supperform.resolution.Calcul;
 import org.apache.poi.openxml4j.exceptions.ODFNotOfficeXmlFileException;
@@ -13,19 +12,9 @@ import java.util.ArrayList;
 
 public class TableauExcel {
 
-    //private int nombreLigne, nombreColonne;
-    //private File fileReponse, fileId;
-    //private XSSFSheet sheetReponse, sheetId;
-    //private XSSFWorkbook workbookReponse, workbookId;
-    private FonctionAffichage notation;
-    //private Alert alert;
-
-    public TableauExcel(){
-        //this.notation = notation;
-    }
-
     public XSSFWorkbook recuperationFichier(File file) {
         try {
+            System.out.println(file);
             FileInputStream fileInputStreamReponse = new FileInputStream(file);
             return new XSSFWorkbook(fileInputStreamReponse);
         } catch (NullPointerException n) {
@@ -47,11 +36,6 @@ public class TableauExcel {
         }
     }
 
-
-    /**
-     **************************************************************************************
-     */
-
     public String[][] recuperationValeurIdentifiant(int nbLigneEtuId, XSSFSheet sheet){
 
         String[][] idEtu = new String[4][nbLigneEtuId];
@@ -66,8 +50,8 @@ public class TableauExcel {
 
             idEtu[0][i] = cellIdPrenom.getStringCellValue().toUpperCase();
             idEtu[1][i] = cellIdNom.getStringCellValue().toUpperCase();
-            idEtu[2][i] = cellId.getNumericCellValue() + "";
-            idEtu[3][i] = cellIdLieuInscription.getStringCellValue();
+            idEtu[2][i] = cellId.toString();
+            idEtu[3][i] = cellIdLieuInscription.toString();
 
         }
         return idEtu;
@@ -122,24 +106,15 @@ public class TableauExcel {
 
                 for (int j = 0; j < nombreLigne; j++) {      //génère les résultats de chaque QCM pour chaque Etudiant et l'ajoute dans un tableau à deux dimensions
 
-                    //double total = 0;
-
                     XSSFCell cellReponseEtudiantQCM = sheetReponse.getRow(1 + j).getCell(positionDebutReponse + i);
                     ArrayList<String> reponseEtudiantQCM = calcul.creationTableau(cellReponseEtudiantQCM);
 
-                    //System.out.println(reponseEtudiantQCM.toString());
-                    //System.out.println(" ");
-
                     double resultat = calcul.resultatEtudiantAuQCM(reponseQCM, reponseEtudiantQCM);      //calcul du resultat en appelant la fonction resultatEtudiantAuQCM
-
-                    //tableauResultat[j][i] = resultat;        //ajoute les résultats au tableaux
 
                     XSSFCell cellResultatEtudiantQCM = sheetReponse.getRow(1 + j).createCell(positionDebutReponse + i + nombreColonne + 3); //créé les nouvelles cellules où seront enregistrées les résultats
                     cellResultatEtudiantQCM.setCellValue("");
 
                     cellResultatEtudiantQCM.setCellValue(resultat);    //rempli la cellule avec les résultats
-
-                    //total += tableauResultat[j][i];
 
                     if(sheetReponse.getRow(1 + j).getCell(positionDebutReponse + nombreColonne + 4 + nombreColonne) == null){
                         XSSFCell cellResultatTotalEtudiantQCM = sheetReponse.getRow(1 + j).createCell(positionDebutReponse + nombreColonne + 4 + nombreColonne);
@@ -157,18 +132,18 @@ public class TableauExcel {
         }
     }
 
-    public XSSFWorkbook fermetureFichier(XSSFWorkbook workbook, File file) {
+    public void fermetureFichier(XSSFWorkbook workbook, File file) {
         try {
             FileOutputStream fileOut = new FileOutputStream(file);
             workbook.write(fileOut);
+            workbook.close();
             fileOut.close();
-            return workbook;
+            FenetreAlert.info("Le programme a correctement fonctionné !");
         } catch (FileNotFoundException | NullPointerException n) {
             FenetreAlert.erreur("Fermer les fichiers Excel puis recommencer.");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
 }

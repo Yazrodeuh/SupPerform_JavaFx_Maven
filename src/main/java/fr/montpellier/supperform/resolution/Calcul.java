@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 public class Calcul {
 
-    public String[] tableauCarractereReponse = {"A", "B", "C", "D", "E", "F", "G", "H", "I","J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "-"};
-    public String[] tableauCarractere = {"A", "B", "C", "D", "E", "F"};
     public ArrayList<String> tableau;
     public double retrait;
 
@@ -45,7 +43,6 @@ public class Calcul {
         return list;
     }
 
-
     public ArrayList<String> copierTableau(ArrayList<String> tableauACopier){
         return new ArrayList<>(tableauACopier);
     }
@@ -56,37 +53,6 @@ public class Calcul {
         tableau = stringVersList(reponseQuestionEtudiant);
         return tableau;
     }
-
-    /*public String creationStringReponseEtudiant(XSSFCell cell) {
-
-        //tableau = new ArrayList<>();
-        StringBuilder reponse = new StringBuilder();
-
-        String reponseQuestionEtudiant = cell.getStringCellValue();
-
-        for (int i = 0; i < reponseQuestionEtudiant.length(); i++) {
-            if(reponseQuestionEtudiant.charAt(i) == 'A'){
-                //tableau.add("A");
-                reponse.append("A");
-            }else if(reponseQuestionEtudiant.charAt(i) == 'B'){
-                //tableau.add("B");
-                reponse.append("B");
-            }else if(reponseQuestionEtudiant.charAt(i) == 'C'){
-                //tableau.add("C");
-                reponse.append("C");
-            }else if(reponseQuestionEtudiant.charAt(i) == 'D'){
-                //tableau.add("D");
-                reponse.append("D");
-            }else if(reponseQuestionEtudiant.charAt(i) == 'E'){
-                //tableau.add("E");
-                reponse.append("E");
-            }else if(reponseQuestionEtudiant.charAt(i) == 'F'){
-                //tableau.add("F");
-                reponse.append("F");
-            }
-        }
-        return reponse.toString();
-    }*/
 
     public ArrayList<String> creationTableau(XSSFCell cell) {
 
@@ -110,21 +76,6 @@ public class Calcul {
             }
         }
 
-        /*ArrayList<String> tableauReponseQuestionEtudiant = stringVersList(reponseQuestionEtudiant);
-
-        //System.out.println(tableauReponseQuestionEtudiant.toString());
-
-        for (int i = 0; i < tableauReponseQuestionEtudiant.size(); i++) {
-            for (String s : tableauCarractere) {
-
-                if (tableauReponseQuestionEtudiant.get(i).equals(s)) {
-                    if(i != tableauReponseQuestionEtudiant.size()-1 && tableauReponseQuestionEtudiant.get(i+1).equals("-")){
-                        tableau.add(s);
-                    }
-
-                }
-            }
-        }*/
         return tableau;
     }
 
@@ -157,13 +108,9 @@ public class Calcul {
     public double resultatEtudiantAuQCM(ArrayList<String> reponseQCM, ArrayList<String> reponseEtudiant){
 
         double resultat = 1;
-        //int positionI = 0, positionJ = 0;
-        //boolean aEteTrouve = false;
 
         ArrayList<String> copieReponseQCM = copierTableau(reponseQCM);
         ArrayList<String> copieReponseEtudiant = copierTableau(reponseEtudiant);
-        //System.out.println("Etudiant : " + copieReponseEtudiant.toString());
-        //System.out.println("QCM : " + copieReponseQCM.toString());
 
         if(copieReponseEtudiant.size() == 0){
             return 0;
@@ -173,35 +120,18 @@ public class Calcul {
             }else if((copieReponseQCM.get(0).equals("F") || copieReponseEtudiant.get(0).equals("F")) && !copieReponseEtudiant.get(0).equals(copieReponseQCM.get(0))){
                 return 0;
             } else{
-                //resultat -= 2 * retrait;
                 return resultat - (2 * retrait);
             }
         }else{
             if(copieReponseEtudiant.contains("F")) return 0;
 
-            /*
             for (int i = 0; i < copieReponseQCM.size(); i++) {
-                if(aEteTrouve){
-                    aEteTrouve = false;
-                    i = 0;
-                }
                 for (int j = 0; j < copieReponseEtudiant.size(); j++) {
-                    if(copieReponseQCM.get(i).equals(copieReponseEtudiant.get(j))) {
-                        aEteTrouve = true;
-                        positionI = i;
-                        positionJ = j;
+                    if (copieReponseEtudiant.size() == 0 || copieReponseQCM.size() == 0){
+                        i = copieReponseQCM.size();
+                        j = copieReponseEtudiant.size();
                     }
-                }
-                if(aEteTrouve){
-                    copieReponseQCM.remove(positionI);
-                    copieReponseEtudiant.remove(positionJ);
-                    i = -1;
-                }
-            }
-            */
-            for (int i = 0; i < copieReponseQCM.size(); i++) {
-                for (int j = 0; j < copieReponseEtudiant.size(); j++) {
-                    if(copieReponseQCM.get(i).equals(copieReponseEtudiant.get(j))) {
+                    else if(copieReponseQCM.get(i).equals(copieReponseEtudiant.get(j))) {
                         copieReponseQCM.remove(i);
                         copieReponseEtudiant.remove(j);
                         i = 0;
@@ -210,12 +140,7 @@ public class Calcul {
                 }
             }
         }
-
         return (resultat -= (copieReponseEtudiant.size() + copieReponseQCM.size()) * retrait) < 0.5 ? 0 : resultat;
-
-        //resultat -= (copieReponseEtudiant.size() + copieReponseQCM.size()) * retrait;
-        //if(resultat < 0.5)     return 0;
-        //return resultat;
     }
 
 }

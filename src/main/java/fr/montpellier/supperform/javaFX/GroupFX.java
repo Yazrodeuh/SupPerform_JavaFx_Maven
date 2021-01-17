@@ -23,7 +23,7 @@ public class GroupFX extends Group {
     }
 
     public File getFile(int index){
-        return new File(String.valueOf(this.getChildren().get(index)));
+        return new File(((LabelFX) this.getChildren().get(index)).getText());
     }
 
 

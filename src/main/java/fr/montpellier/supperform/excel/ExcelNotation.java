@@ -5,8 +5,6 @@ import fr.montpellier.supperform.affichage.Notation;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.IOException;
-
 public class ExcelNotation extends TableauExcel {
 
     public ExcelNotation(Notation notation, double retrait) {
@@ -25,16 +23,7 @@ public class ExcelNotation extends TableauExcel {
         }
 
         calculNote(ligneRep, nombreLigneQCM, nombreColonne, sheetRep, retrait);
-
-        workbookReponse = fermetureFichier(workbookReponse, notation.getFileReponse());
-
-        try {
-            workbookReponse.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        fermetureFichier(workbookReponse, notation.getFileReponse());
     }
-
 
 }
