@@ -5,6 +5,7 @@ import fr.montpellier.supperform.affichage.Identifiant;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,78 +13,72 @@ import java.util.Arrays;
 
 public class Images {
 
+    private BufferedImage imgBuf;
+
+    {
+        try {
+            imgBuf = ImageIO.read(new FileInputStream("src/main/resources/Image.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public Images() {
 
-        try {
-
-            BufferedImage imgBF1 = ImageIO.read(new FileInputStream("src/main/resources/Image.jpg"));
-
-            int[][] img1 = new int[imgBF1.getHeight()][imgBF1.getWidth()];
-
-            for (int i = 0; i < imgBF1.getHeight(); i++) {
-                for (int j = 0; j < imgBF1.getWidth(); j++) {
-                    img1[i][j] = imgBF1.getRGB(j, i);
-                }
-            }
-
-            BufferedImage imgBF2 = ImageIO.read(new FileInputStream("src/main/resources/Image3.jpg"));
-
-            int[][] img2 = new int[imgBF2.getHeight()][imgBF2.getWidth()];
-            Color[][] couleur = new Color[imgBF2.getHeight()][imgBF2.getWidth()];
-
-            for (int i = 0; i < imgBF2.getHeight(); i++) {
-                for (int j = 0; j < imgBF2.getWidth(); j++) {
-                    img2[i][j] = imgBF2.getRGB(j, i);
-                    couleur[i][j] = new Color(imgBF2.getRGB(j, i));
-                }
-            }
-
-            /*for (int[] ints : img1) {
-                System.out.println(Arrays.toString(ints) + "\n");
-            }*/
-
-            for (Color[] colors : couleur) {
-                System.out.println(Arrays.toString(colors) + "\n");
-                System.out.println(colors[0].getRed() + "-" + colors[0].getGreen() + "-" + colors[0].getBlue());
-            }
-
-            System.out.println(imgBF1.getHeight());
-            System.out.println(imgBF1.getWidth());
-
-            System.out.println(img1.length);
-            System.out.println(img1[0].length);
-
-            int[][] img3 = new int[imgBF2.getHeight()][imgBF2.getWidth()];
-
-            for (int i = 0; i < imgBF2.getHeight(); i++) {
-                for (int j = 0; j < imgBF2.getWidth(); j++) {
-                    img3[i][j] = (imgBF2.getRGB(j, i) + imgBF1.getRGB(j, i)) / 2;
-                }
-            }
-
-            /*for (int[] ints : img3) {
-                System.out.println(Arrays.toString(ints) + "\n");
-            }
-
-            System.out.println(img1.length);
-            System.out.println(img1[0].length);*/
-
+        Color[][] couleurDeBase = creerNouvelleImage(imgBuf);
+        Color[][] couleurCompare = new Color[0][];
+        
+        try {   
+            couleurCompare = creerNouvelleImage(ImageIO.read(new FileInputStream("src/main/resources/Image3.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        genererImage(couleurDeBase, couleurCompare, "Test2");
+
+
     }
 
+    private Color[][] creerNouvelleImage(BufferedImage bufferedImage){
 
+        Color[][] colors = new Color[bufferedImage.getHeight()][bufferedImage.getWidth()];
 
+        for (int i = 0; i < bufferedImage.getHeight(); i++) {
+            for (int j = 0; j < bufferedImage.getWidth(); j++) {
+                colors[i][j] = new Color(bufferedImage.getRGB(j, i));
+            }
+        }
+        return colors;
+    }
 
+    private void genererImage(Color[][] couleurBase, Color[][] couleurCompare, String name){
+        
+        File f = null;
+        BufferedImage bufferedImage = new BufferedImage(imgBuf.getWidth(), imgBuf.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
+        for (int i = 0; i < imgBuf.getHeight(); i++) {
+            for (int j = 0; j < imgBuf.getWidth(); j++) {
 
+                int a = Math.min(couleurBase[i][j].getAlpha(), couleurCompare[i][j].getAlpha());
+                int r = Math.min(couleurBase[i][j].getRed(), couleurCompare[i][j].getRed());
+                int g = Math.min(couleurBase[i][j].getGreen(), couleurCompare[i][j].getGreen());
+                int b = Math.min(couleurBase[i][j].getBlue(), couleurCompare[i][j].getBlue());
 
+                int p = (a<<24) | (r<<16) | (g<<8) | b;
 
+                bufferedImage.setRGB(j, i, p);
+            }
+        }
 
+        f = new File(name + ".png");
+
+        try {
+            ImageIO.write(bufferedImage, "png", f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
