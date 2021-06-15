@@ -13,7 +13,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         STAGE = primaryStage;
         STAGE.setTitle("Sup'Perform | Accueil");
         STAGE.setScene(new SceneFX(new Accueil()));
@@ -21,8 +20,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        Images images = new Images();
-        //launch(args);
+        //Images images = new Images();
+        launch(args);
     }
 
 }

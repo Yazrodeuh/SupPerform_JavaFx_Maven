@@ -20,7 +20,7 @@ public class Accueil extends Group {
         boutonId.eventScene(new Identifiant(), "Sup'Perform | Identifiant");
 
         ButtonFX support = new ButtonFX("Support", width, height, transX, transY + 60);
-        support.setOnAction(actionEvent -> FenetreAlert.info("Pour tout problème ou question, vous pouvez me contacter à l'adresse mail suivante : \n\nmax.poujol21@gmail.com \n"));
+        support.setOnAction(actionEvent -> FenetreAlert.support());
 
         ButtonFX boutonQuitter = new ButtonFX("Quitter", width, height, transX, transY + 120);
         boutonQuitter.setOnAction(actionEvent -> System.exit(0));

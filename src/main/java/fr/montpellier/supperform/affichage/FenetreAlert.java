@@ -16,7 +16,15 @@ public class FenetreAlert {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText(null);
-        alert.setContentText(text + "\nVeuillez réessayer");
+        alert.setContentText(text);
+        alert.showAndWait();
+    }
+
+    public static void support(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText("Pour tout problème ou questions, vous pouvez me contacter à l'adresse mail suivante : \n\nmax.poujol21@gmail.com \n");
         alert.showAndWait();
     }
 
